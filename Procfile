@@ -1,1 +1,1 @@
-web: gunicorn backend_barokah.wsgi
+web: gunicorn barokah_db.wsgi
