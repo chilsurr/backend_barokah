@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'barokah_db.wsgi.application'
 # DATABASES = {
 #     'default': dj_database_url.config(default=os.environ.get('MYSQL_URL'))
 # }
-# print("MYSQL_URL:", os.environ.get('MYSQL_URL'))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -98,6 +98,8 @@ DATABASES = {
         'PORT': os.environ.get('MYSQLPORT', '3306'),
     }
 }
+
+print("MYSQL_URL:", os.environ.get('MYSQL_URL'))
 
 # DATABASES = {
 #     'default': {
