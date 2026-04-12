@@ -11,12 +11,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
 import os
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -91,26 +93,32 @@ WSGI_APPLICATION = 'barokah_db.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQLDATABASE'),
-        'USER': os.environ.get('MYSQLUSER'),
-        'PASSWORD': os.environ.get('MYSQLPASSWORD'),
-        'HOST': os.environ.get('MYSQLHOST'),
-        'PORT': os.environ.get('MYSQLPORT', '3306'),
+        'NAME': os.environ.get('MYSQLDATABASE') or 'db_barokah',
+        'USER': os.environ.get('MYSQLUSER') or 'root',
+        'PASSWORD': os.environ.get('MYSQLPASSWORD') or 'F.anton11',
+        'HOST': os.environ.get('MYSQLHOST') or 'localhost',
+        'PORT': os.environ.get('MYSQLPORT') or '3306',
     }
 }
 
-print("MYSQL_URL:", os.environ.get('MYSQL_URL'))
+
 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'db_barokah',
 #         'USER': 'root',
-#         'PASSWORD': '',
+#         'PASSWORD': 'F.anton11',
 #         'HOST': 'localhost',
 #         'PORT': '3306' 
 #     }
 # }
+
+print("MYSQL_URL:", os.environ.get('MYSQL_URL'))
+print("MYSQLDATABASE:", os.environ.get('MYSQLDATABASE'))
+print("PORT:", os.environ.get('MYSQLPORT'))
+print("USER:", os.environ.get('MYSQLUSER'))
+print("HOST:", os.environ.get('MYSQLHOST'))
 
 
 # Password validation
