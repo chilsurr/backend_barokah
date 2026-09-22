@@ -90,35 +90,35 @@ WSGI_APPLICATION = 'barokah_db.wsgi.application'
 #     'default': dj_database_url.config(default=os.environ.get('MYSQL_URL'))
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQLDATABASE') or 'db_barokah',
-        'USER': os.environ.get('MYSQLUSER') or 'root',
-        'PASSWORD': os.environ.get('MYSQLPASSWORD') or 'F.anton11',
-        'HOST': os.environ.get('MYSQLHOST') or 'localhost',
-        'PORT': os.environ.get('MYSQLPORT') or '3306',
-    }
-}
-
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'db_barokah',
-#         'USER': 'root',
-#         'PASSWORD': 'F.anton11',
-#         'HOST': 'localhost',
-#         'PORT': '3306' 
+#         'NAME': os.environ.get('MYSQLDATABASE') or 'db_barokah',
+#         'USER': os.environ.get('MYSQLUSER') or 'root',
+#         'PASSWORD': os.environ.get('MYSQLPASSWORD') or 'F.anton11',
+#         'HOST': os.environ.get('MYSQLHOST') or 'localhost',
+#         'PORT': os.environ.get('MYSQLPORT') or '3306',
 #     }
 # }
 
-print("MYSQL_URL:", os.environ.get('MYSQL_URL'))
-print("MYSQLDATABASE:", os.environ.get('MYSQLDATABASE'))
-print("PORT:", os.environ.get('MYSQLPORT'))
-print("USER:", os.environ.get('MYSQLUSER'))
-print("HOST:", os.environ.get('MYSQLHOST'))
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_barokah',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '8080' 
+    }
+}
+
+# print("MYSQL_URL:", os.environ.get('MYSQL_URL'))
+# print("MYSQLDATABASE:", os.environ.get('MYSQLDATABASE'))
+# print("PORT:", os.environ.get('MYSQLPORT'))
+# print("USER:", os.environ.get('MYSQLUSER'))
+# print("HOST:", os.environ.get('MYSQLHOST'))
 
 
 # Password validation

@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
-from .models import  Closing,OrderDetail, Orders, Product
-from . serializers import  closingSerializer,orderDetailSerializer, ordersSerializer, productSerializer,UserSerializer
+from .models import  Closing,OrderDetail, Orders, Product,Cart
+from . serializers import  closingSerializer,orderDetailSerializer, ordersSerializer, productSerializer,UserSerializer,RegisterSerializer,LoginSerializer,CartSerializer
 
-from rest_framework import viewsets, permissions,status
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from rest_framework import viewsets, permissions,status,generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -14,6 +16,13 @@ import pandas as pd
 import numpy as np
 from io import BytesIO
 
+
+class LoginView(TokenObtainPairView):
+    serializer_class = LoginSerializer
+
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]
 
 class productViewSets(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -28,7 +37,12 @@ class ordersViewSets(viewsets.ModelViewSet):
 class orderDetailViewSets(viewsets.ModelViewSet):
     queryset = OrderDetail.objects.all()
     serializer_class = orderDetailSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
+    
+    # def get_queryset(self):
+    #     return Orders.objects.filter(
+    #         user=self.request.user
+    #     )
 
 class closingViewSets(viewsets.ModelViewSet):
     queryset = Closing.objects.all()
@@ -120,3 +134,39 @@ class CheckAuthView(APIView):
             "user": request.user.username,
             "id": request.user.id
         })
+
+class CartViewSets(viewsets.ModelViewSet):
+    serializer_class = CartSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Cart.objects.filter(
+            user=self.request.user
+        ).select_related("product")
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        product = serializer.validated_data["product"]
+        quantity = serializer.validated_data["quantity"]
+
+        cart, created = Cart.objects.get_or_create(
+            user=request.user,
+            product=product,
+            defaults={
+                "quantity": quantity
+            }
+        )
+
+        if not created:
+            cart.quantity += quantity
+            cart.save()
+
+        response_serializer = self.get_serializer(cart)
+
+        return Response(
+            response_serializer.data,
+            status=status.HTTP_201_CREATED
+        )
+

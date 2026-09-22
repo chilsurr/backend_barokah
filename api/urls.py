@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import UploadExcelView,ExportExcelView,GetUserView,CheckAuthView
+from .views import UploadExcelView,ExportExcelView,GetUserView,CheckAuthView,RegisterView,LoginView,CartViewSets
 
 router = routers.DefaultRouter()
 
@@ -15,11 +15,13 @@ router.register(r'products', views.productViewSets)
 router.register(r'order', views.ordersViewSets)
 router.register(r'orderdetail', views.orderDetailViewSets)
 router.register(r'closing', views.closingViewSets)
+router.register(r'cart', views.CartViewSets, basename="cart")
 
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('user/', GetUserView.as_view(), name='current-user'),
     path('check-auth/', CheckAuthView.as_view(), name='check-auth'),
