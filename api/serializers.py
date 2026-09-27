@@ -178,6 +178,8 @@ class CartSerializer(serializers.ModelSerializer):
             "id": obj.product.id,
             "name": obj.product.name,
             "price": obj.product.price,
+            "img": obj.product.image,
+            
             # tambahkan field lain sesuai model Product kamu
         }
 

@@ -56,9 +56,9 @@ class Product(models.Model):
     category = models.CharField(max_length=50, blank=True, null=True)
     stock = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-    image = models.ImageField(upload_to="products/",blank=True ,null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
     def __str__(self):
-        return f"name: {self.name} | Stock: {self.stock} | hpp: {self.hpp} | category: {self.category}| Price: {self.price} | user: {self.user}|"
+        return f"name: {self.name} | Stock: {self.stock} | hpp: {self.hpp} | category: {self.category}| Price: {self.price}| img: {self.image} | user: {self.user}|"
 
     class Meta:
         managed = True
